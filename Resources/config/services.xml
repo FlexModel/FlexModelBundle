@@ -3,13 +3,20 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:schemaLocation='http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd'>
 
+    <parameters>
+        <parameter key='flex_model.factory.class'>FlexModel\FlexModelBundle\DependencyInjection\FlexModelFactory</parameter>
+        <parameter key='flex_model.class'>FlexModel\FlexModel</parameter>
+        <parameter key='flex_model.identifier'>default</parameter>
+        <parameter key='flex_model.cache_path'>%kernel.cache_dir%/flexmodel</parameter>
+    </parameters>
+
     <services>
-        <service id='flexmodel' class='FlexModel\FlexModel'>
-            <argument>default</argument>
-            <call method='load'>
-                <argument>%flex_model.document%</argument>
-                <argument>%flex_model.cache_path%</argument>
-            </call>
+        <service id='flex_model.factory' class='%flex_model.factory.class%' public='false'/>
+        <service id='flexmodel' class='%flex_model.class%'>
+            <factory service='flex_model.factory' method='createFlexModel'/>
+            <argument>%flex_model.identifier%</argument>
+            <argument>%flex_model.resource%</argument>
+            <argument>%flex_model.cache_path%</argument>
         </service>
     </services>
 </container>

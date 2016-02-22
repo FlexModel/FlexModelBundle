@@ -2,7 +2,6 @@
 
 namespace FlexModel\FlexModelBundle\DependencyInjection;
 
-use DOMDocument;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -23,13 +22,10 @@ class FlexModelExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('flex_model.resource', $config['resource']);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-
-        $domDocument = new DOMDocument('1.0', 'UTF-8');
-        $domDocument->load($config['resource']);
-
-        $container->setParameter('flex_model.document', $domDocument);
         $container->setParameter('flex_model.cache_path', $config['cache_path']);
     }
 }

@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('resource')->isRequired()->end()
-                ->scalarNode('cache_path')->isRequired()->end()
             ->end();
 
         return $treeBuilder;

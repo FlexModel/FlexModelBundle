@@ -14,6 +14,7 @@
     <services>
         <service id='flex_model.cache_warmer' class='%flex_model.cache_warmer.class%'>
             <tag name='kernel.cache_warmer'/>
+            <argument type='service' id='service_container'/>
             <argument>%flex_model.cache_path%</argument>
         </service>
         <service id='flex_model.factory' class='%flex_model.factory.class%' public='false'/>

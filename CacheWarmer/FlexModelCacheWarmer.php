@@ -3,6 +3,7 @@
 namespace FlexModel\FlexModelBundle\CacheWarmer;
 
 use RuntimeException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 
 /**
@@ -13,6 +14,13 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 class FlexModelCacheWarmer extends CacheWarmer
 {
     /**
+     * The service container instance.
+     *
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * The location of cache path.
      *
      * @var string
@@ -22,10 +30,12 @@ class FlexModelCacheWarmer extends CacheWarmer
     /**
      * Creates a new FlexModelCacheWarmer instance.
      *
-     * @param string $cachePath
+     * @param ContainerInterface $container
+     * @param string             $cachePath
      */
-    public function __construct($cachePath)
+    public function __construct(ContainerInterface $container, $cachePath)
     {
+        $this->container = $container;
         $this->cachePath = $cachePath;
     }
 
@@ -41,6 +51,9 @@ class FlexModelCacheWarmer extends CacheWarmer
         } elseif (is_writable($this->cachePath) === false) {
             throw new RuntimeException(sprintf('The FlexModel directory "%s" is not writeable for the current system user.', $this->cachePath));
         }
+
+        // Triggers cache creation.
+        $this->container->get('flexmodel');
     }
 
     /**

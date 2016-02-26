@@ -7,6 +7,7 @@
         <parameter key='flex_model.cache_warmer.class'>FlexModel\FlexModelBundle\CacheWarmer\FlexModelCacheWarmer</parameter>
         <parameter key='flex_model.factory.class'>FlexModel\FlexModelBundle\DependencyInjection\FlexModelFactory</parameter>
         <parameter key='flex_model.class'>FlexModel\FlexModel</parameter>
+        <parameter key='flex_model.data_collector.class'>FlexModel\FlexModelBundle\DataCollector\FlexModelDataCollector</parameter>
         <parameter key='flex_model.identifier'>default</parameter>
         <parameter key='flex_model.cache_path'>%kernel.cache_dir%/flexmodel</parameter>
     </parameters>
@@ -17,12 +18,19 @@
             <argument type='service' id='service_container'/>
             <argument>%flex_model.cache_path%</argument>
         </service>
+
         <service id='flex_model.factory' class='%flex_model.factory.class%' public='false'/>
+
         <service id='flexmodel' class='%flex_model.class%'>
             <factory service='flex_model.factory' method='createFlexModel'/>
             <argument>%flex_model.identifier%</argument>
             <argument>%flex_model.resource%</argument>
             <argument>%flex_model.cache_path%</argument>
+        </service>
+
+        <service id='flex_model.data_collector' class='%flex_model.data_collector.class%' public='false'>
+            <tag name='data_collector' id='flexmodel' template='@FlexModel/DataCollector/flexmodel.html.twig' priority='251'/>
+            <argument type='service' id='flexmodel'/>
         </service>
     </services>
 </container>

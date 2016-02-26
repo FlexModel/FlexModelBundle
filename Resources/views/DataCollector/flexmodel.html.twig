@@ -1,0 +1,48 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        <span class='icon'><img alt='FlexModel' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATtJREFUeNpi/P//PwMtARMDjcGoBUPLAh4gPgPFPETrAiVTLFgaiNcBsTqSGP9/BOBHEteCqpXGZhYuC2ZCDToJxMx4LGCGqvkP1UO0BUJA/ASqsQKPBRVQ/hOoHqItAGFvqOaf0GBAt0ALKvcfqpaBkAV+0LDURRKbjxRUQkgWCCEFzRwk9bpQM/ywWXAYyYCl0AgGufQhVKwZSR7GfghVow7VAwOHsVkgCsSTgfgbkkKQD+KRgqoGimFBE4/ky/9QvZOhZuGMA1Bym4ZkyB8gvgLELUhqWqBif5Asn4YtqbJAs4MHEAeiZZE1QGwIxBpArA3E05DknkHFQGX9dSA+D8TMQFyHpGY9EO+AWWAAxGkE8uQlLGxGINaEYnRwH9mCHUD8joAFd9DY6QTUnwK7YLRGG7WAYgAQYAChWZ59NzOGzwAAAABJRU5ErkJggg=='/></span>
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        <div class='sf-toolbar-info-piece'>
+            <b>Loaded objects</b>
+            <span>{{ collector.objects|length }}</span>
+        </div>
+    {% endset %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: false }) }}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class='label'>
+        <span class='icon'><img alt='FlexModel' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATtJREFUeNpi/P//PwMtARMDjcGoBUPLAh4gPgPFPETrAiVTLFgaiNcBsTqSGP9/BOBHEteCqpXGZhYuC2ZCDToJxMx4LGCGqvkP1UO0BUJA/ASqsQKPBRVQ/hOoHqItAGFvqOaf0GBAt0ALKvcfqpaBkAV+0LDURRKbjxRUQkgWCCEFzRwk9bpQM/ywWXAYyYCl0AgGufQhVKwZSR7GfghVow7VAwOHsVkgCsSTgfgbkkKQD+KRgqoGimFBE4/ky/9QvZOhZuGMA1Bym4ZkyB8gvgLELUhqWqBif5Asn4YtqbJAs4MHEAeiZZE1QGwIxBpArA3E05DknkHFQGX9dSA+D8TMQFyHpGY9EO+AWWAAxGkE8uQlLGxGINaEYnRwH9mCHUD8joAFd9DY6QTUnwK7YLRGG7WAYgAQYAChWZ59NzOGzwAAAABJRU5ErkJggg=='/></span>
+        <strong>FlexModel</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>FlexModel</h2>
+    <h3>Loaded objects</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Fields</th>
+        </tr>
+
+        {% for object in collector.objects %}
+        <tr>
+            <td>{{ object.objectName }}</td>
+            <td>{{ object.fieldNames|length }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

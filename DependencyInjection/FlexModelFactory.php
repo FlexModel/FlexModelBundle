@@ -25,6 +25,7 @@ class FlexModelFactory
     {
         $domDocument = new DOMDocument('1.0', 'UTF-8');
         $domDocument->load($resource);
+        $domDocument->xinclude();
 
         $flexModel = new FlexModel($identifier);
         $flexModel->load($domDocument, $cachePath);

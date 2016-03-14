@@ -3,6 +3,19 @@
 namespace FlexModel\FlexModelBundle\Form;
 
 use FlexModel\FlexModel;
+use ReflectionClass;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * FlexModelFormType.
@@ -26,5 +39,111 @@ class FlexModelFormType extends AbstractType
     public function __construct(FlexModel $flexModel)
     {
         $this->flexModel = $flexModel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        if (isset($options['data_class']) && isset($options['form_name'])) {
+            $reflectionClass = new ReflectionClass($options['data_class']);
+            $objectName = $reflectionClass->getShortName();
+
+            $formConfiguration = $this->flexModel->getFormConfiguration($objectName, $options['form_name']);
+            if (is_array($formConfiguration)) {
+                foreach ($formConfiguration['fields'] as $formFieldConfiguration) {
+                    $fieldConfiguration = $this->flexModel->getField($objectName, $formFieldConfiguration['name']);
+
+                    $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
+                    $fieldOptions = $this->getFieldOptions($fieldConfiguration);
+
+                    $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefault('form_name', null);
+    }
+
+    /**
+     * Returns the field type for a field.
+     *
+     * @param array $formFieldConfiguration
+     * @param array $fieldConfiguration
+     *
+     * @return array
+     */
+    private function getFieldType(array $formFieldConfiguration, array $fieldConfiguration)
+    {
+        if (isset($formFieldConfiguration['fieldtype'])) {
+            return $formFieldConfiguration['fieldtype'];
+        }
+
+        $fieldType = null;
+        switch ($fieldConfiguration['datatype']) {
+            case 'BOOLEAN':
+                $fieldType = null;
+                break;
+            case 'DATE':
+                $fieldType = DateType::class;
+                break;
+            case 'DATEINTERVAL':
+                $fieldType = TextType::class;
+                break;
+            case 'DATETIME':
+                $fieldType = DateTimeType::class;
+                break;
+            case 'DECIMAL':
+                $fieldType = NumberType::class;
+                break;
+            case 'FILE':
+                $fieldType = FileType::class;
+                break;
+            case 'FLOAT':
+                $fieldType = NumberType::class;
+                break;
+            case 'INTEGER':
+                $fieldType = IntegerType::class;
+                break;
+            case 'SET':
+                $fieldType = CheckboxType::class;
+                break;
+            case 'TEXT':
+            case 'HTML':
+            case 'JSON':
+                $fieldType = TextareaType::class;
+                break;
+            case 'VARCHAR':
+                $fieldType = TextType::class;
+                if (isset($fieldConfiguration['options'])) {
+                    $fieldType = ChoiceType::class;
+                }
+                break;
+        }
+
+        return $fieldType;
+    }
+
+    /**
+     * Returns the field options for a field.
+     *
+     * @param array $fieldConfiguration
+     *
+     * @return array
+     */
+    private function getFieldOptions(array $fieldConfiguration)
+    {
+        $options = array();
+
+        return $options;
     }
 }

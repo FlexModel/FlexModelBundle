@@ -13,6 +13,7 @@
         "php": "^5.5 | ^7.0",
         "flexmodel/flexmodel": "dev-master",
         "symfony/console": "^3.0",
+        "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0"
     },
     "require-dev": {

@@ -6,6 +6,7 @@
     <parameters>
         <parameter key='flex_model.cache_warmer.class'>FlexModel\FlexModelBundle\CacheWarmer\FlexModelCacheWarmer</parameter>
         <parameter key='flex_model.factory.class'>FlexModel\FlexModelBundle\DependencyInjection\FlexModelFactory</parameter>
+        <parameter key='flex_model.form.type.class'>FlexModel\FlexModelBundle\Form\FlexModelFormType</parameter>
         <parameter key='flex_model.class'>FlexModel\FlexModel</parameter>
         <parameter key='flex_model.data_collector.class'>FlexModel\FlexModelBundle\DataCollector\FlexModelDataCollector</parameter>
         <parameter key='flex_model.identifier'>default</parameter>
@@ -30,6 +31,11 @@
 
         <service id='flex_model.data_collector' class='%flex_model.data_collector.class%' public='false'>
             <tag name='data_collector' id='flexmodel' template='@FlexModel/DataCollector/flexmodel.html.twig' priority='251'/>
+            <argument type='service' id='flexmodel'/>
+        </service>
+
+        <service id='flex_model.form.type' class='%flex_model.form.type.class%'>
+            <tag name='form.type'/>
             <argument type='service' id='flexmodel'/>
         </service>
     </services>

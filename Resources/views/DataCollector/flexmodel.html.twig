@@ -2,16 +2,15 @@
 
 {% block toolbar %}
     {% set icon %}
-        {# this is the content displayed as a panel in the toolbar #}
-        <span class='icon'><img alt='FlexModel' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATtJREFUeNpi/P//PwMtARMDjcGoBUPLAh4gPgPFPETrAiVTLFgaiNcBsTqSGP9/BOBHEteCqpXGZhYuC2ZCDToJxMx4LGCGqvkP1UO0BUJA/ASqsQKPBRVQ/hOoHqItAGFvqOaf0GBAt0ALKvcfqpaBkAV+0LDURRKbjxRUQkgWCCEFzRwk9bpQM/ywWXAYyYCl0AgGufQhVKwZSR7GfghVow7VAwOHsVkgCsSTgfgbkkKQD+KRgqoGimFBE4/ky/9QvZOhZuGMA1Bym4ZkyB8gvgLELUhqWqBif5Asn4YtqbJAs4MHEAeiZZE1QGwIxBpArA3E05DknkHFQGX9dSA+D8TMQFyHpGY9EO+AWWAAxGkE8uQlLGxGINaEYnRwH9mCHUD8joAFd9DY6QTUnwK7YLRGG7WAYgAQYAChWZ59NzOGzwAAAABJRU5ErkJggg=='/></span>
+        {# Content displayed as a panel in the toolbar #}
+        <span class='icon'>{{ include('@FlexModelBundle/Resources/svg/icon.svg') }}</span>
     {% endset %}
 
     {% set text %}
-        {# this is the content displayed when hovering the mouse over
-           the toolbar panel #}
+        {# Content displayed when hovering the mouse over the toolbar panel #}
         <div class='sf-toolbar-info-piece'>
             <b>Loaded objects</b>
-            <span>{{ collector.objects|length }}</span>
+            <span class='sf-toolbar-status'>{{ collector.objects|length }}</span>
         </div>
     {% endset %}
 
@@ -21,15 +20,14 @@
 {% endblock %}
 
 {% block menu %}
-    {# This left-hand menu appears when using the full-screen profiler. #}
+    {# Left-hand menu in the full-screen profiler. #}
     <span class='label'>
-        <span class='icon'><img alt='FlexModel' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATtJREFUeNpi/P//PwMtARMDjcGoBUPLAh4gPgPFPETrAiVTLFgaiNcBsTqSGP9/BOBHEteCqpXGZhYuC2ZCDToJxMx4LGCGqvkP1UO0BUJA/ASqsQKPBRVQ/hOoHqItAGFvqOaf0GBAt0ALKvcfqpaBkAV+0LDURRKbjxRUQkgWCCEFzRwk9bpQM/ywWXAYyYCl0AgGufQhVKwZSR7GfghVow7VAwOHsVkgCsSTgfgbkkKQD+KRgqoGimFBE4/ky/9QvZOhZuGMA1Bym4ZkyB8gvgLELUhqWqBif5Asn4YtqbJAs4MHEAeiZZE1QGwIxBpArA3E05DknkHFQGX9dSA+D8TMQFyHpGY9EO+AWWAAxGkE8uQlLGxGINaEYnRwH9mCHUD8joAFd9DY6QTUnwK7YLRGG7WAYgAQYAChWZ59NzOGzwAAAABJRU5ErkJggg=='/></span>
+        <span class='icon'>{{ include('@FlexModelBundle/Resources/svg/icon.svg') }}</span>
         <strong>FlexModel</strong>
     </span>
 {% endblock %}
 
 {% block panel %}
-    {# Optional, for showing the most details. #}
     <h2>FlexModel</h2>
     <h3>Loaded objects</h3>
     <table>

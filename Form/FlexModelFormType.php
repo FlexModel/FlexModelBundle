@@ -116,7 +116,7 @@ class FlexModelFormType extends AbstractType
                 $fieldType = IntegerType::class;
                 break;
             case 'SET':
-                $fieldType = CheckboxType::class;
+                $fieldType = ChoiceType::class;
                 break;
             case 'TEXT':
             case 'HTML':
@@ -152,10 +152,23 @@ class FlexModelFormType extends AbstractType
         if (isset($fieldConfiguration['required'])) {
             $options['required'] = $fieldConfiguration['required'];
         }
+        $this->addFieldOptionsByDatatype($options, $fieldConfiguration);
         $this->addFieldChoiceOptions($options, $fieldConfiguration);
         $this->addFieldConstraintOptions($options, $formFieldConfiguration);
 
         return $options;
+    }
+
+    /**
+     * Adds field options based on the datatype of a field.
+     */
+    private function addFieldOptionsByDatatype(array & $options, array $fieldConfiguration)
+    {
+        switch ($fieldConfiguration['datatype']) {
+            case 'SET':
+                $options['multiple'] = true;
+                break;
+        }
     }
 
     /**

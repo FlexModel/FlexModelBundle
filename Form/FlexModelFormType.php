@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * FlexModelFormType.
@@ -152,6 +153,7 @@ class FlexModelFormType extends AbstractType
             $options['required'] = $fieldConfiguration['required'];
         }
         $this->addFieldChoiceOptions($options, $fieldConfiguration);
+        $this->addFieldConstraintOptions($options, $formFieldConfiguration);
 
         return $options;
     }
@@ -168,6 +170,26 @@ class FlexModelFormType extends AbstractType
             $options['choices'] = array();
             foreach ($fieldConfiguration['options'] as $option) {
                 $options['choices'][$option['label']] = $option['value'];
+            }
+        }
+    }
+
+    /**
+     * Adds the constraints option to the field options.
+     *
+     * @param array $options
+     * @param array $formFieldConfiguration
+     */
+    private function addFieldConstraintOptions(array & $options, array $formFieldConfiguration)
+    {
+        if ($options['required'] === true) {
+            $options['constraints'][] = new NotBlank();
+        }
+
+        if (isset($formFieldConfiguration['validators'])) {
+            $options['constraints'] = array();
+            foreach ($formFieldConfiguration['validators'] as $validatorClass => $validatorOptions) {
+                $options['constraints'][] = new $validatorClass($validatorOptions);
             }
         }
     }

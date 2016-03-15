@@ -56,7 +56,7 @@ class FlexModelFormType extends AbstractType
                     $fieldConfiguration = $this->flexModel->getField($objectName, $formFieldConfiguration['name']);
 
                     $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
-                    $fieldOptions = $this->getFieldOptions($fieldConfiguration);
+                    $fieldOptions = $this->getFieldOptions($formFieldConfiguration, $fieldConfiguration);
 
                     $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
                 }
@@ -136,14 +136,39 @@ class FlexModelFormType extends AbstractType
     /**
      * Returns the field options for a field.
      *
+     * @param array $formFieldConfiguration
      * @param array $fieldConfiguration
      *
      * @return array
      */
-    private function getFieldOptions(array $fieldConfiguration)
+    private function getFieldOptions(array $formFieldConfiguration, array $fieldConfiguration)
     {
-        $options = array();
+        $options = array(
+            'label' => $fieldConfiguration['label'],
+            'required' => false,
+            'constraints' => array(),
+        );
+        if (isset($fieldConfiguration['required'])) {
+            $options['required'] = $fieldConfiguration['required'];
+        }
+        $this->addFieldChoiceOptions($options, $fieldConfiguration);
 
         return $options;
+    }
+
+    /**
+     * Adds the choices option to the field options.
+     *
+     * @param array $options
+     * @param array $fieldConfiguration
+     */
+    private function addFieldChoiceOptions(array & $options, array $fieldConfiguration)
+    {
+        if (isset($fieldConfiguration['options'])) {
+            $options['choices'] = array();
+            foreach ($fieldConfiguration['options'] as $option) {
+                $options['choices'][$option['label']] = $option['value'];
+            }
+        }
     }
 }

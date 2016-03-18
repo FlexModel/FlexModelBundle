@@ -92,7 +92,7 @@ class FlexModelFormType extends AbstractType
         $fieldType = null;
         switch ($fieldConfiguration['datatype']) {
             case 'BOOLEAN':
-                $fieldType = null;
+                $fieldType = CheckboxType::class;
                 break;
             case 'DATE':
                 $fieldType = DateType::class;

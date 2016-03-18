@@ -62,7 +62,11 @@
                     <xsl:with-param name='value' select='@name'/>
                 </xsl:call-template>
             </xsl:attribute>
-            <xsl:attribute name='column'><xsl:value-of select='@name'/></xsl:attribute>
+            <xsl:attribute name='column'>
+                <xsl:value-of select='parent::node()/parent::node()/orm/@columnEscapeCharacter'/>
+                <xsl:value-of select='@name'/>
+                <xsl:value-of select='parent::node()/parent::node()/orm/@columnEscapeCharacter'/>
+            </xsl:attribute>
             <xsl:attribute name='type'><xsl:apply-templates select='self::node()' mode='fieldTypeAttributeValue'/></xsl:attribute>
             <xsl:apply-templates select='self::node()' mode='fieldNullableAttribute'/>
             <xsl:apply-templates select='self::node()' mode='fieldLengthAttribute'/>

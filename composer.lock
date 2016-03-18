@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ee0deb45029c7cbd894c5b1863f8345",
-    "content-hash": "42096018abca5d40b407c8acea08b95c",
+    "hash": "13caba7b93a72a2c85efb3f951f0a5b1",
+    "content-hash": "c141116f0562383df88c1a94b24f0b6c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -201,16 +201,16 @@
         },
         {
             "name": "flexmodel/flexmodel",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FlexModel/FlexModel.git",
-                "reference": "5b381562e95915f389f880063c40f7826bd83922"
+                "reference": "24cdc9a0088dda83ca5b5725067abecd43712d6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FlexModel/FlexModel/zipball/55775ee19dad3f7374e5689067163c56e3901fa6",
-                "reference": "5b381562e95915f389f880063c40f7826bd83922",
+                "url": "https://api.github.com/repos/FlexModel/FlexModel/zipball/24cdc9a0088dda83ca5b5725067abecd43712d6e",
+                "reference": "24cdc9a0088dda83ca5b5725067abecd43712d6e",
                 "shasum": ""
             },
             "require": {
@@ -237,7 +237,7 @@
                 }
             ],
             "description": "An XML-based model (object / view / form) configuration library.",
-            "time": "2016-02-22 09:53:22"
+            "time": "2016-03-18 14:56:35"
         },
         {
             "name": "paragonie/random_compat",
@@ -2987,9 +2987,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "flexmodel/flexmodel": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

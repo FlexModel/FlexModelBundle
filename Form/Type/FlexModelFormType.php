@@ -1,6 +1,6 @@
 <?php
 
-namespace FlexModel\FlexModelBundle\Form;
+namespace FlexModel\FlexModelBundle\Form\Type;
 
 use FlexModel\FlexModel;
 use ReflectionClass;

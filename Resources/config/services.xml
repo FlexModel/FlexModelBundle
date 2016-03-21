@@ -6,7 +6,7 @@
     <parameters>
         <parameter key='flex_model.cache_warmer.class'>FlexModel\FlexModelBundle\CacheWarmer\FlexModelCacheWarmer</parameter>
         <parameter key='flex_model.factory.class'>FlexModel\FlexModelBundle\DependencyInjection\FlexModelFactory</parameter>
-        <parameter key='flex_model.form.type.class'>FlexModel\FlexModelBundle\Form\FlexModelFormType</parameter>
+        <parameter key='flex_model.form.type.class'>FlexModel\FlexModelBundle\Form\Type\FlexModelFormType</parameter>
         <parameter key='flex_model.class'>FlexModel\FlexModel</parameter>
         <parameter key='flex_model.data_collector.class'>FlexModel\FlexModelBundle\DataCollector\FlexModelDataCollector</parameter>
         <parameter key='flex_model.identifier'>default</parameter>

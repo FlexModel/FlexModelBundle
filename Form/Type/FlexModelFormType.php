@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use FlexModel\FlexModelBundle\Form\DataTransformer\HTMLPurifierTransformer;
 
 /**
  * FlexModelFormType.
@@ -60,6 +61,9 @@ class FlexModelFormType extends AbstractType
                     $fieldOptions = $this->getFieldOptions($formFieldConfiguration, $fieldConfiguration);
 
                     $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
+                    if ($fieldConfiguration['datatype'] === "HTML") {
+                        $builder->get($fieldConfiguration['name'])->addModelTransformer(new HTMLPurifierTransformer());
+                    }
                 }
             }
         }

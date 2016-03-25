@@ -26,6 +26,6 @@
         }
     },
     "suggest": {
-        "ezyang/htmlpurifier": "4.7"
+        "ezyang/htmlpurifier": "^4.7"
     }
 }

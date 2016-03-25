@@ -61,11 +61,11 @@ class FlexModelFormType extends AbstractType
                     $fieldOptions = $this->getFieldOptions($formFieldConfiguration, $fieldConfiguration);
 
                     $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
-                    if ($fieldConfiguration['datatype'] === "HTML") {
+                    if ($fieldConfiguration['datatype'] === 'HTML') {
                         $builder->get($fieldConfiguration['name'])->addModelTransformer(new HTMLPurifierTransformer());
-                    }
-                    elseif ($fieldConfiguration['datatype'] === "FILE") {
-                        $builder->add($fieldConfiguration['name'], $fieldType, array('data_class' => null) );
+                    } elseif ($fieldConfiguration['datatype'] === 'FILE') {
+                        $options = array_merge($fieldOptions, array('data_class' => null));
+                        $builder->add($fieldConfiguration['name'], $fieldType, $options);
                     }
                 }
             }
@@ -169,7 +169,7 @@ class FlexModelFormType extends AbstractType
     /**
      * Adds field options based on the datatype of a field.
      */
-    private function addFieldOptionsByDatatype(array & $options, array $fieldConfiguration)
+    private function addFieldOptionsByDatatype(array &$options, array $fieldConfiguration)
     {
         switch ($fieldConfiguration['datatype']) {
             case 'SET':
@@ -184,7 +184,7 @@ class FlexModelFormType extends AbstractType
      * @param array $options
      * @param array $fieldConfiguration
      */
-    private function addFieldChoiceOptions(array & $options, array $fieldConfiguration)
+    private function addFieldChoiceOptions(array &$options, array $fieldConfiguration)
     {
         if (isset($fieldConfiguration['options'])) {
             $options['choices'] = array();
@@ -200,7 +200,7 @@ class FlexModelFormType extends AbstractType
      * @param array $options
      * @param array $formFieldConfiguration
      */
-    private function addFieldConstraintOptions(array & $options, array $formFieldConfiguration)
+    private function addFieldConstraintOptions(array &$options, array $formFieldConfiguration)
     {
         if ($options['required'] === true) {
             $options['constraints'][] = new NotBlank();

@@ -62,7 +62,7 @@ class FlexModelFormType extends AbstractType
 
                     $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
                     if ($fieldConfiguration['datatype'] === "HTML") {
-                        $builder->get($fieldConfiguration['name'])->addModelTransformer(new HTMLPurifierTransformer($fieldConfiguration['name']));
+                        $builder->get($fieldConfiguration['name'])->addModelTransformer(new HTMLPurifierTransformer());
                     }
                 }
             }

@@ -16,15 +16,11 @@ class HTMLPurifierTransformer implements DataTransformerInterface
     /**
      * Strip a field of datatype: html from malicious code.
      *
-     * @param string $htmlField
+     * @param string $html
      */
     public function transform($html)
     {
-        $htmlPurifierPackage = __DIR__.'/../../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
-
-        if (file_exists($htmlPurifierPackage)) {
-            require_once $htmlPurifierPackage;
-
+        if (class_exists('HTMLPurifier')) {
             $config = HTMLPurifier_Config::createDefault();
             $purifier = new HTMLPurifier($config);
             $cleanHtml = $purifier->purify($html);
@@ -38,7 +34,7 @@ class HTMLPurifierTransformer implements DataTransformerInterface
     /**
      * Undo stripping of a field of datatype: html from malicious code.
      *
-     * @param string $htmlField
+     * @param string $html
      */
     public function reverseTransform($html)
     {

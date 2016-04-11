@@ -159,11 +159,33 @@ class FlexModelFormType extends AbstractType
         if (isset($fieldConfiguration['required'])) {
             $options['required'] = $fieldConfiguration['required'];
         }
+
+        $this->addFieldPlaceholder($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldOptionsByDatatype($options, $fieldConfiguration);
         $this->addFieldChoiceOptions($options, $fieldConfiguration);
         $this->addFieldConstraintOptions($options, $formFieldConfiguration);
 
         return $options;
+    }
+
+    /**
+     * Adds the placeholder for a field based on the type.
+     *
+     * @param array $options
+     * @param array $formFieldConfiguration
+     * @param array $fieldConfiguration
+     */
+    public function addFieldPlaceholder(array &$options, array $formFieldConfiguration, array $fieldConfiguration)
+    {
+        $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
+
+        if (isset($formFieldConfiguration['notices']['placeholder'])) {
+            if (in_array($fieldType, array(ChoiceType::class, DateType::class, BirthdayType::class, DateTimeType::class))) {
+                $options['placeholder'] = $formFieldConfiguration['notices']['placeholder'];
+            } else {
+                $options['attr']['placeholder'] = $formFieldConfiguration['notices']['placeholder'];
+            }
+        }
     }
 
     /**

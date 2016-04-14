@@ -47,6 +47,7 @@ class FlexModelExtension extends Twig_Extension
     /**
      * Gets the option label based on the object and field name.
      *
+     * @param string $value
      * @param string $objectName
      * @param string $fieldName
      *

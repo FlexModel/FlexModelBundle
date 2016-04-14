@@ -23,7 +23,7 @@
 
         <service id='flex_model.factory' class='%flex_model.factory.class%' public='false'/>
 
-        <service id='flexmodel' class='%flex_model.class%'>
+        <service id='flexmodel' class='%flex_model.class%' lazy='true'>
             <factory service='flex_model.factory' method='createFlexModel'/>
             <argument>%flex_model.identifier%</argument>
             <argument>%flex_model.resource%</argument>

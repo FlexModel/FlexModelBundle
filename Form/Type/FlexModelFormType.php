@@ -159,6 +159,9 @@ class FlexModelFormType extends AbstractType
         if (isset($fieldConfiguration['required'])) {
             $options['required'] = $fieldConfiguration['required'];
         }
+        if (isset($formFieldConfiguration['widget'])) {
+            $options['widget'] = $formFieldConfiguration['widget'];
+        }
 
         $this->addFieldPlaceholder($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldOptionsByDatatype($options, $fieldConfiguration);

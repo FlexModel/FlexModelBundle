@@ -11,6 +11,7 @@
         <parameter key='flex_model.data_collector.class'>FlexModel\FlexModelBundle\DataCollector\FlexModelDataCollector</parameter>
         <parameter key='flex_model.identifier'>default</parameter>
         <parameter key='flex_model.cache_path'>%kernel.cache_dir%/flexmodel</parameter>
+        <parameter key='flex_model.twig_extension.class'>FlexModel\FlexModelBundle\Twig\FlexModelExtension</parameter>
     </parameters>
 
     <services>
@@ -36,6 +37,11 @@
 
         <service id='flex_model.form.type' class='%flex_model.form.type.class%'>
             <tag name='form.type'/>
+            <argument type='service' id='flexmodel'/>
+        </service>
+
+        <service id='flex_model.twig_extension' class='%flex_model.twig_extension.class%'>
+            <tag name='twig.extension'/>
             <argument type='service' id='flexmodel'/>
         </service>
     </services>

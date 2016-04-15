@@ -86,6 +86,7 @@ class FlexModelExtension extends Twig_Extension
      */
     private function getLabelForValue($fieldConfiguration, $value)
     {
+        $label = "";
         foreach ($fieldConfiguration['options'] as $option) {
             if ($option['value'] == $value) {
                 $label = $option['label'];

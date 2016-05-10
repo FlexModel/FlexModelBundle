@@ -53,7 +53,7 @@ class FlexModelCacheWarmer extends CacheWarmer
         }
 
         // Triggers cache creation.
-        $this->container->get('flexmodel');
+        $this->container->get('flexmodel')->reload();
     }
 
     /**

@@ -1,0 +1,18 @@
+<?xml version='1.0' ?>
+<container xmlns='http://symfony.com/schema/dic/services'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd'>
+
+    <parameters>
+        <parameter key='flex_model.subscriber.object_upload.class'>FlexModel\FlexModelBundle\EventListener\ObjectUploadSubscriber</parameter>
+    </parameters>
+
+    <services>
+        <service id='flex_model.subscriber.object_upload' class='%flex_model.subscriber.object_upload.class%'>
+            <tag name='doctrine.event_subscriber' connection='default'/>
+
+            <argument type='service' id='flexmodel'/>
+            <argument>%flex_model.file_upload_path%</argument>
+        </service>
+    </services>
+</container>

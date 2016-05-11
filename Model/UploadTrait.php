@@ -53,7 +53,10 @@ trait UploadTrait
     {
         $propertyName = $this->getFileUploadPropertyName();
 
-        $this->fileUploads[$propertyName] = $file;
+        unset($this->fileUploads[$propertyName]);
+        if ($file instanceof UploadedFile) {
+            $this->fileUploads[$propertyName] = $file;
+        }
     }
 
     /**

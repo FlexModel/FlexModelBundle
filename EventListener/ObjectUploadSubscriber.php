@@ -167,8 +167,11 @@ class ObjectUploadSubscriber implements EventSubscriber
             $fileFieldProperty = lcfirst($camelizedFieldName);
             if (isset($fileUploads[$fileFieldProperty])) {
                 $getter = 'get'.$camelizedFieldName;
+                $setter = 'set'.$camelizedFieldName.'Upload';
 
                 $fileUploads[$fileFieldProperty]->move($this->getFilePath($objectName, $fileFieldConfiguration['name']), $object->$getter());
+
+                $object->$setter(null);
             }
         }
     }

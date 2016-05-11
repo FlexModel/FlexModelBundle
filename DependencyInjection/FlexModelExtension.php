@@ -4,7 +4,7 @@ namespace FlexModel\FlexModelBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -24,7 +24,14 @@ class FlexModelExtension extends Extension
 
         $container->setParameter('flex_model.resource', $config['resource']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if (isset($config['file_upload_path'])) {
+            $container->setParameter('flex_model.file_upload_path', $config['file_upload_path']);
+
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+            $loader->load('upload_services.xml');
+        }
     }
 }

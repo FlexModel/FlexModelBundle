@@ -59,13 +59,14 @@ class FlexModelFormType extends AbstractType
 
                     $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
                     $fieldOptions = $this->getFieldOptions($formFieldConfiguration, $fieldConfiguration);
+                    $fieldName = $fieldConfiguration['name'];
+                    if ($fieldType === FileType::class) {
+                        $fieldName .= '_upload';
+                    }
 
-                    $builder->add($fieldConfiguration['name'], $fieldType, $fieldOptions);
+                    $builder->add($fieldName, $fieldType, $fieldOptions);
                     if ($fieldConfiguration['datatype'] === 'HTML') {
-                        $builder->get($fieldConfiguration['name'])->addModelTransformer(new HTMLPurifierTransformer());
-                    } elseif ($fieldConfiguration['datatype'] === 'FILE') {
-                        $options = array_merge($fieldOptions, array('data_class' => null));
-                        $builder->add($fieldConfiguration['name'], $fieldType, $options);
+                        $builder->get($fieldName)->addModelTransformer(new HTMLPurifierTransformer());
                     }
                 }
             }

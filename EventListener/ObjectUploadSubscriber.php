@@ -59,6 +59,7 @@ class ObjectUploadSubscriber implements EventSubscriber
     {
         return array(
             Events::preFlush,
+            Events::prePersist,
             Events::postPersist,
             Events::postUpdate,
             Events::postFlush,
@@ -82,6 +83,19 @@ class ObjectUploadSubscriber implements EventSubscriber
                     $this->prepareUploadFileReferences($object);
                 }
             }
+        }
+    }
+
+    /**
+     * Prepares upload file references for a new object implementing the UploadObjectInterface.
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof UploadObjectInterface) {
+            $this->prepareUploadFileReferences($object);
         }
     }
 

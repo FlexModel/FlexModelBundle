@@ -2,7 +2,7 @@
 
 [![Software License][icon-license]](LICENSE.md)
 
-FlexModel integration for Symfony 3+.
+FlexModel integration for Symfony.
 
 ## Installation using Composer
 Run the following command to add the package to the composer.json of your project:

@@ -21,7 +21,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new FlexModel\FlexModelBundle(),
+        new FlexModel\FlexModelBundle\FlexModelBundle(),
         // ...
     );
 }

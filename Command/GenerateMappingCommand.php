@@ -34,19 +34,22 @@ class GenerateMappingCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $flexModel = $this->getContainer()->get('flexmodel');
+        $container = $this->getContainer();
+
+        $flexModel = $container->get('flexmodel');
         $domDocument = $flexModel->getDOMDocument();
+
+        $bundleName = $container->getParameter('flex_model.bundle_name');
+        $bundle = $this->getApplication()->getKernel()->getBundle($bundleName);
 
         $xslDocument = new DOMDocument('1.0', 'UTF-8');
         $xslDocument->load(__DIR__.'/../Resources/xsl/doctrine-mapping.xsl');
 
         $processor = new XSLTProcessor();
-        $processor->setParameter('', 'objectNamespace', 'AppBundle\\Entity\\'); // @todo Make configurable
+        $processor->setParameter('', 'objectNamespace', sprintf('%s\\Entity\\', $bundle->getNamespace()));
         $processor->importStyleSheet($xslDocument);
 
-        $bundle = $this->getApplication()->getKernel()->getBundle('AppBundle'); // @todo Make configurable
-
-        $ormMappingDirectory = $bundle->getPath().'/Resources/config/doctrine'; // @todo Make configurable
+        $ormMappingDirectory = $bundle->getPath().'/Resources/config/doctrine';
         if (is_dir(dirname($ormMappingDirectory)) === false) {
             mkdir($ormMappingDirectory, 0755, true);
         }
@@ -63,6 +66,6 @@ class GenerateMappingCommand extends ContainerAwareCommand
         $io->success('Generated Doctrine mapping from FlexModel configuration.');
 
         $command = $this->getApplication()->find('generate:doctrine:entities');
-        $command->run(new ArrayInput(array('name' => 'AppBundle')), $output);
+        $command->run(new ArrayInput(array('name' => $bundleName)), $output);
     }
 }

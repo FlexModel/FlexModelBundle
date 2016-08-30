@@ -34,6 +34,7 @@ Add the following configuration to your `config.yml` file:
 # app/config/config.yml
 
 flex_model:
+    bundle_name: AppBundle # optional, defaults to 'AppBundle'
     resource: "%kernel.root_dir%/../src/AppBundle/Resources/config/flexmodel.xml"
 ```
 

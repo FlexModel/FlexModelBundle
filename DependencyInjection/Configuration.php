@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('resource')->isRequired()->end()
+                ->scalarNode('bundle_name')->defaultValue('AppBundle')->end()
                 ->scalarNode('file_upload_path')->end()
             ->end();
 

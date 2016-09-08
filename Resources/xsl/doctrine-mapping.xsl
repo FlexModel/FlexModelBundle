@@ -30,6 +30,7 @@
         <xsl:element name='entity' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='name'><xsl:value-of select='$objectNamespace'/><xsl:value-of select='@name'/></xsl:attribute>
             <xsl:apply-templates select='self::node()' mode='entityIdentifier'/>
+            <xsl:apply-templates select='orm' mode='tableAttribute'/>
             <xsl:apply-templates select='fields/field'/>
             <xsl:apply-templates select='fields/field' mode='fieldEntityReference'/>
         </xsl:element>
@@ -63,6 +64,16 @@
     Don't add an id field to an entity when an id field is defined in a orm/field-defined.
     -->
     <xsl:template match='object[orm/field-defined[@name = "id"]]' mode='entityIdentifier'/>
+
+    <!--
+    Add a table attribute to the entity if available.
+    -->
+    <xsl:template match='orm' mode='tableAttribute'/>
+    <xsl:template match='orm[@table]' mode='tableAttribute'>
+        <xsl:attribute name='table'>
+            <xsl:value-of select='@table'/>
+        </xsl:attribute>
+    </xsl:template>
 
     <!--
     Add a field mapping to an entity.

@@ -29,28 +29,40 @@
     <xsl:template match='object'>
         <xsl:element name='entity' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='name'><xsl:value-of select='$objectNamespace'/><xsl:value-of select='@name'/></xsl:attribute>
-            <xsl:element name='id' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
-                <xsl:attribute name='name'>id</xsl:attribute>
-                <xsl:attribute name='type'>integer</xsl:attribute>
-
-                <xsl:element name='generator' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
-                    <xsl:attribute name='strategy'>AUTO</xsl:attribute>
-                </xsl:element>
-                <xsl:element name='sequence-generator' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
-                    <xsl:attribute name='sequence-name'>
-                        <xsl:call-template name='lower-case'>
-                            <xsl:with-param name='value' select='@name'/>
-                        </xsl:call-template>
-                        <xsl:text>_seq</xsl:text>
-                    </xsl:attribute>
-                    <xsl:attribute name='allocation-size'>100</xsl:attribute>
-                    <xsl:attribute name='initial-value'>1</xsl:attribute>
-                </xsl:element>
-            </xsl:element>
+            <xsl:apply-templates select='self::node()' mode='entityIdentifier'/>
             <xsl:apply-templates select='fields/field'/>
             <xsl:apply-templates select='fields/field' mode='fieldEntityReference'/>
         </xsl:element>
     </xsl:template>
+
+    <!--
+    Add an id field to an entity.
+    -->
+    <xsl:template match='object' mode='entityIdentifier'>
+        <xsl:element name='id' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:attribute name='name'>id</xsl:attribute>
+            <xsl:attribute name='type'>integer</xsl:attribute>
+
+            <xsl:element name='generator' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+                <xsl:attribute name='strategy'>AUTO</xsl:attribute>
+            </xsl:element>
+            <xsl:element name='sequence-generator' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+                <xsl:attribute name='sequence-name'>
+                    <xsl:call-template name='lower-case'>
+                        <xsl:with-param name='value' select='@name'/>
+                    </xsl:call-template>
+                    <xsl:text>_seq</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name='allocation-size'>100</xsl:attribute>
+                <xsl:attribute name='initial-value'>1</xsl:attribute>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+
+    <!--
+    Don't add an id field to an entity when an id field is defined in a orm/field-defined.
+    -->
+    <xsl:template match='object[orm/field-defined[@name = "id"]]' mode='entityIdentifier'/>
 
     <!--
     Add a field mapping to an entity.

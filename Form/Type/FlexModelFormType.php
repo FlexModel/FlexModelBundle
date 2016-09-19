@@ -134,10 +134,11 @@ class FlexModelFormType extends AbstractType
                 break;
             case 'VARCHAR':
                 $fieldType = TextType::class;
-                if (isset($fieldConfiguration['options'])) {
-                    $fieldType = ChoiceType::class;
-                }
                 break;
+        }
+
+        if (isset($fieldConfiguration['options'])) {
+            $fieldType = ChoiceType::class;
         }
 
         return $fieldType;

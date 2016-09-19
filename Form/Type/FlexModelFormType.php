@@ -151,7 +151,7 @@ class FlexModelFormType extends AbstractType
      *
      * @return array
      */
-    private function getFieldOptions(array $formFieldConfiguration, array $fieldConfiguration)
+    protected function getFieldOptions(array $formFieldConfiguration, array $fieldConfiguration)
     {
         $options = array(
             'label' => $fieldConfiguration['label'],

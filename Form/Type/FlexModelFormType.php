@@ -137,7 +137,7 @@ class FlexModelFormType extends AbstractType
                 break;
         }
 
-        if (isset($fieldConfiguration['options'])) {
+        if (isset($formFieldConfiguration['options']) || isset($fieldConfiguration['options'])) {
             $fieldType = ChoiceType::class;
         }
 
@@ -171,7 +171,7 @@ class FlexModelFormType extends AbstractType
 
         $this->addFieldPlaceholder($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldOptionsByDatatype($options, $fieldConfiguration);
-        $this->addFieldChoiceOptions($options, $fieldConfiguration);
+        $this->addFieldChoiceOptions($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldConstraintOptions($options, $formFieldConfiguration);
 
         return $options;
@@ -213,10 +213,15 @@ class FlexModelFormType extends AbstractType
      * Adds the choices option to the field options.
      *
      * @param array $options
+     * @param array $formFieldConfiguration
      * @param array $fieldConfiguration
      */
-    private function addFieldChoiceOptions(array &$options, array $fieldConfiguration)
+    private function addFieldChoiceOptions(array &$options, array $formFieldConfiguration, array $fieldConfiguration)
     {
+        if (isset($formFieldConfiguration['options'])) {
+            $fieldConfiguration['options'] = $formFieldConfiguration['options'];
+        }
+
         if (isset($fieldConfiguration['options'])) {
             $options['choices'] = array();
             foreach ($fieldConfiguration['options'] as $option) {

@@ -199,6 +199,9 @@ class FlexModelFormType extends AbstractType
 
     /**
      * Adds field options based on the datatype of a field.
+     *
+     * @param array $options
+     * @param array $fieldConfiguration
      */
     private function addFieldOptionsByDatatype(array &$options, array $fieldConfiguration)
     {

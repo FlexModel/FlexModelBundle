@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2aeecb2d10da5c324ebd36766895e454",
-    "content-hash": "3a7c69db2beee944de475ada432fbbc7",
+    "hash": "56e5b1828d390149a29442a80fc43517",
+    "content-hash": "84b4250d0db67a14f3cd89b68501b45e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -608,16 +608,16 @@
         },
         {
             "name": "flexmodel/flexmodel",
-            "version": "0.2.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FlexModel/FlexModel.git",
-                "reference": "5dd2381d0b2671ac04fca69f75617d8d996154dd"
+                "reference": "7ef02e3075a2afb56f0d4f382ee9a46ecd9b9002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FlexModel/FlexModel/zipball/5dd2381d0b2671ac04fca69f75617d8d996154dd",
-                "reference": "5dd2381d0b2671ac04fca69f75617d8d996154dd",
+                "url": "https://api.github.com/repos/FlexModel/FlexModel/zipball/7ef02e3075a2afb56f0d4f382ee9a46ecd9b9002",
+                "reference": "7ef02e3075a2afb56f0d4f382ee9a46ecd9b9002",
                 "shasum": ""
             },
             "require": {
@@ -644,7 +644,7 @@
                 }
             ],
             "description": "An XML-based model (object / view / form) configuration library.",
-            "time": "2016-04-14 12:15:32"
+            "time": "2016-09-19 09:52:14"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -912,12 +912,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee"
+                "reference": "38711092665edc06ef55e842942fb813932ff4ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
-                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
+                "url": "https://api.github.com/repos/symfony/config/zipball/38711092665edc06ef55e842942fb813932ff4ac",
+                "reference": "38711092665edc06ef55e842942fb813932ff4ac",
                 "shasum": ""
             },
             "require": {

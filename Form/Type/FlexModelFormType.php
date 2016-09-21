@@ -134,10 +134,11 @@ class FlexModelFormType extends AbstractType
                 break;
             case 'VARCHAR':
                 $fieldType = TextType::class;
-                if (isset($fieldConfiguration['options'])) {
-                    $fieldType = ChoiceType::class;
-                }
                 break;
+        }
+
+        if (isset($formFieldConfiguration['options']) || isset($fieldConfiguration['options'])) {
+            $fieldType = ChoiceType::class;
         }
 
         return $fieldType;
@@ -170,7 +171,7 @@ class FlexModelFormType extends AbstractType
 
         $this->addFieldPlaceholder($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldOptionsByDatatype($options, $fieldConfiguration);
-        $this->addFieldChoiceOptions($options, $fieldConfiguration);
+        $this->addFieldChoiceOptions($options, $formFieldConfiguration, $fieldConfiguration);
         $this->addFieldConstraintOptions($options, $formFieldConfiguration);
 
         return $options;
@@ -198,6 +199,9 @@ class FlexModelFormType extends AbstractType
 
     /**
      * Adds field options based on the datatype of a field.
+     *
+     * @param array $options
+     * @param array $fieldConfiguration
      */
     private function addFieldOptionsByDatatype(array &$options, array $fieldConfiguration)
     {
@@ -212,10 +216,15 @@ class FlexModelFormType extends AbstractType
      * Adds the choices option to the field options.
      *
      * @param array $options
+     * @param array $formFieldConfiguration
      * @param array $fieldConfiguration
      */
-    private function addFieldChoiceOptions(array &$options, array $fieldConfiguration)
+    private function addFieldChoiceOptions(array &$options, array $formFieldConfiguration, array $fieldConfiguration)
     {
+        if (isset($formFieldConfiguration['options'])) {
+            $fieldConfiguration['options'] = $formFieldConfiguration['options'];
+        }
+
         if (isset($fieldConfiguration['options'])) {
             $options['choices'] = array();
             foreach ($fieldConfiguration['options'] as $option) {

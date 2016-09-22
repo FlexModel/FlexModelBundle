@@ -33,6 +33,7 @@
             <xsl:apply-templates select='orm' mode='tableAttribute'/>
             <xsl:apply-templates select='fields/field'/>
             <xsl:apply-templates select='fields/field' mode='fieldEntityReference'/>
+            <xsl:apply-templates select='orm/inverse-reference' mode='inverseReferences'/>
         </xsl:element>
     </xsl:template>
 
@@ -203,6 +204,20 @@
         <xsl:element name='many-to-one' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='field'><xsl:value-of select='@name'/></xsl:attribute>
             <xsl:attribute name='target-entity'><xsl:value-of select='substring(@datatype, 8)'/></xsl:attribute>
+            <xsl:if test='/flexmodel/object[@name = substring(current()/@datatype, 8)]/orm/inverse-reference[@object = current()/parent::fields/parent::object/@name]/@name'>
+                <xsl:attribute name='inversed-by'><xsl:value-of select='/flexmodel/object[@name = substring(current()/@datatype, 8)]/orm/inverse-reference[@object = current()/parent::fields/parent::object/@name]/@name'/></xsl:attribute>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+
+    <!--
+    Add inverse references if defined
+    -->
+    <xsl:template match='object/orm/inverse-reference' mode='inverseReferences'>
+        <xsl:element name='one-to-many' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:attribute name='field'><xsl:value-of select='@name'/></xsl:attribute>
+            <xsl:attribute name='target-entity'><xsl:value-of select='@object'/></xsl:attribute>
+            <xsl:attribute name='mapped-by'><xsl:value-of select='@field'/></xsl:attribute>
         </xsl:element>
     </xsl:template>
 

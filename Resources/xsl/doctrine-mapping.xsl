@@ -29,8 +29,8 @@
     <xsl:template match='object'>
         <xsl:element name='entity' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='name'><xsl:value-of select='$objectNamespace'/><xsl:value-of select='@name'/></xsl:attribute>
-            <xsl:apply-templates select='self::node()' mode='entityIdentifier'/>
             <xsl:apply-templates select='orm' mode='tableAttribute'/>
+            <xsl:apply-templates select='self::node()' mode='entityIdentifier'/>
             <xsl:apply-templates select='fields/field'/>
             <xsl:apply-templates select='fields/field' mode='fieldEntityReference'/>
             <xsl:apply-templates select='orm/inverse-reference' mode='inverseReferences'/>

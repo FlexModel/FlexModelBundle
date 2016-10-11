@@ -201,7 +201,15 @@
     Don't add an entity reference for a field that has a @datatype starting with 'OBJECT.'.
     -->
     <xsl:template match='object/fields/field[starts-with(@datatype, "OBJECT.")]' mode='fieldEntityReference'>
-        <xsl:element name='many-to-one' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+        <xsl:variable name='fieldName' select='@name'/>
+        <xsl:variable name='referenceType'>
+            <xsl:choose>
+                <xsl:when test='parent::fields/parent::object/orm/reference[@name = $fieldName]'><xsl:value-of select='parent::fields/parent::object/orm/reference[@name = $fieldName]/@type'/></xsl:when>
+                <xsl:otherwise>many-to-one</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:element name='{$referenceType}' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='field'><xsl:value-of select='@name'/></xsl:attribute>
             <xsl:attribute name='target-entity'><xsl:value-of select='substring(@datatype, 8)'/></xsl:attribute>
             <xsl:if test='/flexmodel/object[@name = substring(current()/@datatype, 8)]/orm/inverse-reference[@object = current()/parent::fields/parent::object/@name]/@name'>
@@ -211,10 +219,17 @@
     </xsl:template>
 
     <!--
-    Add inverse references if defined
+    Add inverse references if defined.
     -->
     <xsl:template match='object/orm/inverse-reference' mode='inverseReferences'>
-        <xsl:element name='one-to-many' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+        <xsl:variable name='referenceType'>
+            <xsl:choose>
+                <xsl:when test='@type'><xsl:value-of select='@type'/></xsl:when>
+                <xsl:otherwise>one-to-many</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:element name='{$referenceType}' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
             <xsl:attribute name='field'><xsl:value-of select='@name'/></xsl:attribute>
             <xsl:attribute name='target-entity'><xsl:value-of select='@object'/></xsl:attribute>
             <xsl:attribute name='mapped-by'><xsl:value-of select='@field'/></xsl:attribute>

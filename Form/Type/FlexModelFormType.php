@@ -7,6 +7,7 @@ use ReflectionClass;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -189,7 +190,7 @@ class FlexModelFormType extends AbstractType
         $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
 
         if (isset($formFieldConfiguration['notices']['placeholder'])) {
-            if (in_array($fieldType, array(ChoiceType::class, DateType::class, BirthdayType::class, DateTimeType::class))) {
+            if (in_array($fieldType, array(ChoiceType::class, DateType::class, BirthdayType::class, DateTimeType::class, CountryType::class))) {
                 $options['placeholder'] = $formFieldConfiguration['notices']['placeholder'];
             } else {
                 $options['attr']['placeholder'] = $formFieldConfiguration['notices']['placeholder'];

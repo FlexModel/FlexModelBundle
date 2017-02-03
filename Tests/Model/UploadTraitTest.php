@@ -61,4 +61,40 @@ class UploadTraitTest extends PHPUnit_Framework_TestCase
             $uploadEntityProxyMock
         );
     }
+
+    /**
+     * Tests if the UploadEntityMock::getImageUpload (alias of UploadTrait::getFileUpload)
+     * returns the expected file uploads property.
+     */
+    public function testGetFileUpload()
+    {
+        $uploadedFileMock = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityMock = new UploadEntityMock();
+        $entityMock->setImageUpload($uploadedFileMock);
+
+        $this->assertSame($uploadedFileMock, $entityMock->getImageUpload($uploadedFileMock));
+    }
+
+    /**
+     * Tests if the UploadEntityProxyMock::getImageUpload (alias of UploadTrait::getFileUpload)
+     * sets the expected file uploads property.
+     *
+     * This tests the scenario of a Doctrine entity being a parent class of
+     * a proxy class with all the method overloaded as this changes the
+     * PHP stack to determine the caller method.
+     */
+    public function testGetFileUploadFromProxy()
+    {
+        $uploadedFileMock = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $uploadEntityProxyMock = new UploadEntityProxyMock();
+        $uploadEntityProxyMock->setImageUpload($uploadedFileMock);
+
+        $this->assertSame($uploadedFileMock, $uploadEntityProxyMock->getImageUpload($uploadedFileMock));
+    }
 }

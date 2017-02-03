@@ -27,7 +27,7 @@ trait UploadTrait
      */
     public function getFileUpload()
     {
-        $propertyName = $this->getFileUploadPropertyName();
+        $propertyName = $this->getFileUploadPropertyName(__FUNCTION__);
 
         if (isset($this->fileUploads[$propertyName])) {
             return $this->fileUploads[$propertyName];

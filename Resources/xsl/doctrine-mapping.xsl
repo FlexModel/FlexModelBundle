@@ -96,6 +96,7 @@
             <xsl:apply-templates select='self::node()' mode='fieldLengthAttribute'/>
             <xsl:apply-templates select='self::node()' mode='fieldUniqueAttribute'/>
             <xsl:apply-templates select='self::node()' mode='fieldScalePrecisionAttribute'/>
+            <xsl:apply-templates select='self::node()' mode='fieldOptions'/>
         </xsl:element>
     </xsl:template>
 
@@ -185,6 +186,30 @@
     <xsl:template match='object/fields/field[@datatype = "DECIMAL" and @length and @precision]' mode='fieldScalePrecisionAttribute'>
         <xsl:attribute name='scale'><xsl:value-of select='@length'/></xsl:attribute>
         <xsl:attribute name='precision'><xsl:value-of select='@precision'/></xsl:attribute>
+    </xsl:template>
+
+    <!--
+    Don't add options by default.
+    -->
+    <xsl:template match='object/fields/field' mode='fieldOptions'/>
+
+    <!--
+    Add options when default_value is set.
+    -->
+    <xsl:template match='object/fields/field[@default_value]' mode='fieldOptions'>
+        <xsl:element name='options' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:apply-templates select='self::node()[@default_value]' mode='fieldOptionDefault'/>
+        </xsl:element>
+    </xsl:template>
+
+    <!--
+    Add option for default.
+    -->
+    <xsl:template match='object/fields/field[@default_value]' mode='fieldOptionDefault'>
+        <xsl:element name='option' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:attribute name='name'>default</xsl:attribute>
+            <xsl:value-of select='@default_value'/>
+        </xsl:element>
     </xsl:template>
 
     <!--

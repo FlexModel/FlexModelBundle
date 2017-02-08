@@ -258,6 +258,33 @@
             <xsl:attribute name='field'><xsl:value-of select='@name'/></xsl:attribute>
             <xsl:attribute name='target-entity'><xsl:value-of select='@object'/></xsl:attribute>
             <xsl:attribute name='mapped-by'><xsl:value-of select='@field'/></xsl:attribute>
+            <xsl:apply-templates select='self::node()' mode='inverseReferencesCascades'/>
+        </xsl:element>
+    </xsl:template>
+
+    <!--
+    Add cascades to the inverse-reference.
+    -->
+    <xsl:template match='object/orm/inverse-reference' mode='inverseReferencesCascades'/>
+    <xsl:template match='object/orm/inverse-reference[@cascade-persist="true" or @cascade-remove="true" or @cascade-detach="true" or @cascade-merge="true"]' mode='inverseReferencesCascades'>
+        <xsl:element name='cascade' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:if test='@cascade-persist="true"'>
+                <xsl:element name='cascade-persist' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'/>
+            </xsl:if>
+            <xsl:if test='@cascade-remove="true"'>
+                <xsl:element name='cascade-remove' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'/>
+            </xsl:if>
+            <xsl:if test='@cascade-merge="true"'>
+                <xsl:element name='cascade-merge' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'/>
+            </xsl:if>
+            <xsl:if test='@cascade-detach="true"'>
+                <xsl:element name='cascade-detach' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'/>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match='object/orm/inverse-reference[@cascade-all="true" or (@cascade-persist="true" and @cascade-remove="true" and @cascade-detach="true" and @cascade-merge="true")]' mode='inverseReferencesCascades'>
+        <xsl:element name='cascade' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'>
+            <xsl:element name='cascade-all' namespace='http://doctrine-project.org/schemas/orm/doctrine-mapping'/>
         </xsl:element>
     </xsl:template>
 

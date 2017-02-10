@@ -53,7 +53,7 @@ class FlexModelExtension extends Twig_Extension
      *
      * @return string $label
      */
-    public function optionLabelFilter($value, $objectName, $fieldName)
+    public function optionLabelFilter($value, $objectName, $fieldName, $dateFormat = 'd-m-Y')
     {
         $fieldConfiguration = $this->flexModel->getField($objectName, $fieldName);
 
@@ -68,6 +68,8 @@ class FlexModelExtension extends Twig_Extension
                 } else {
                     $label = $this->getLabelForValue($fieldConfiguration, $value);
                 }
+            } elseif (isset($fieldConfiguration['datatype']) && $fieldConfiguration['datatype'] === 'DATE') {
+                $label = $value->format($dateFormat);
             } else {
                 $label = $value;
             }

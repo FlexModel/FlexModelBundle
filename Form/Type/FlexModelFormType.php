@@ -58,16 +58,19 @@ class FlexModelFormType extends AbstractType
             if (is_array($formConfiguration)) {
                 foreach ($formConfiguration['fields'] as $formFieldConfiguration) {
                     $fieldConfiguration = $this->flexModel->getField($objectName, $formFieldConfiguration['name']);
+                    if (is_array($fieldConfiguration) === false) {
+                        $fieldConfiguration = array();
+                    }
 
                     $fieldType = $this->getFieldType($formFieldConfiguration, $fieldConfiguration);
                     $fieldOptions = $this->getFieldOptions($formFieldConfiguration, $fieldConfiguration);
-                    $fieldName = $fieldConfiguration['name'];
+                    $fieldName = $formFieldConfiguration['name'];
                     if ($fieldType === FileType::class) {
                         $fieldName .= '_upload';
                     }
 
                     $builder->add($fieldName, $fieldType, $fieldOptions);
-                    if ($fieldConfiguration['datatype'] === 'HTML') {
+                    if (isset($fieldConfiguration['datatype']) && $fieldConfiguration['datatype'] === 'HTML') {
                         $builder->get($fieldName)->addModelTransformer(new HTMLPurifierTransformer());
                     }
                 }
@@ -156,12 +159,21 @@ class FlexModelFormType extends AbstractType
     protected function getFieldOptions(array $formFieldConfiguration, array $fieldConfiguration)
     {
         $options = array(
-            'label' => $fieldConfiguration['label'],
+            'label' => '',
             'required' => false,
             'constraints' => array(),
         );
+        if (empty($fieldConfiguration)) {
+            $options['mapped'] = false;
+        }
+        if (isset($fieldConfiguration['label'])) {
+            $options['label'] = $fieldConfiguration['label'];
+        }
         if (isset($fieldConfiguration['required'])) {
             $options['required'] = $fieldConfiguration['required'];
+        }
+        if (isset($formFieldConfiguration['label'])) {
+            $options['label'] = $formFieldConfiguration['label'];
         }
         if (isset($formFieldConfiguration['widget'])) {
             $options['widget'] = $formFieldConfiguration['widget'];
@@ -206,6 +218,10 @@ class FlexModelFormType extends AbstractType
      */
     private function addFieldOptionsByDatatype(array &$options, array $fieldConfiguration)
     {
+        if (isset($fieldConfiguration['datatype']) === false) {
+            return;
+        }
+
         switch ($fieldConfiguration['datatype']) {
             case 'SET':
                 $options['multiple'] = true;
